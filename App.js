@@ -70,11 +70,38 @@ const Stack = createStackNavigator();
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{title: 'My home jaja'}}
+        />
         <Stack.Screen name="About" component={AboutScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Blog" component={BlogScreen} />
+        <Stack.Screen
+          name="Blog"
+          component={BlogScreen}
+          options={{
+            title: 'My home',
+            headerStyle: {
+              backgroundColor: '#baa31e',
+            },
+            headerTintColor: '#ababab',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
