@@ -18,7 +18,9 @@ const HomeScreen = ({navigation}) => {
       <Text>Home Screen</Text>
       <Button
         title="Go to Login"
-        onPress={() => navigation.navigate('Login')}
+        onPress={() =>
+          navigation.navigate('Login', {user: 'pepe', password: 'lola'})
+        }
       />
     </View>
   );
@@ -33,7 +35,7 @@ const BlogScreen = ({navigation}) => {
   );
 };
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({route, navigation}) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Login Screen</Text>
@@ -41,6 +43,15 @@ const LoginScreen = ({navigation}) => {
         title="Go to About"
         onPress={() => navigation.navigate('About')}
       />
+      <Button
+        title="Go to Login... again"
+        onPress={() =>
+          navigation.push('Login', {
+            itemId: Math.floor(Math.random() * 100),
+          })
+        }
+      />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
 };
