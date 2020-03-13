@@ -84,7 +84,16 @@ const App: () => React$Node = () => {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{title: 'My home jaja'}}
+          options={{
+            title: 'My home jaja',
+            headerRight: () => (
+              <Button
+                onPress={() => alert('This is a button!')}
+                title="Info"
+                color="#fff"
+              />
+            ),
+          }}
         />
         <Stack.Screen name="About" component={AboutScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
