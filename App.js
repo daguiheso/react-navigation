@@ -7,7 +7,7 @@
  */
 
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useState, useLayoutEffect} from 'react';
 import {View, Text, Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -57,9 +57,26 @@ const LoginScreen = ({route, navigation}) => {
 };
 
 const AboutScreen = ({navigation}) => {
+  const [counter, setCounter] = useState(0);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        console.log('pepe');
+        return (
+          <Button
+            onPress={() => setCounter(c => c + 1)}
+            title="Update counter"
+          />
+        );
+      },
+    });
+  }, [navigation, setCounter]);
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>About Screen</Text>
+      <Text>Count: {counter}</Text>
       <Button title="Go to Blog" onPress={() => navigation.navigate('Blog')} />
     </View>
   );
