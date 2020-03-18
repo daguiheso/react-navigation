@@ -89,6 +89,7 @@ const App: () => React$Node = () => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Home"
+        headerMode="float"
         screenOptions={{
           headerStyle: {
             backgroundColor: '#f4511e',
@@ -97,6 +98,12 @@ const App: () => React$Node = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          gestureEnabled: true,
+          cardStyle: {
+            borderWidth: 5,
+            backgroundColor: '#fafafa',
+          },
+          cardOverlayEnabled: true,
         }}>
         <Stack.Screen
           name="Home"
