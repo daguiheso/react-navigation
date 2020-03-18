@@ -19,7 +19,7 @@ const HomeScreen = ({navigation}) => {
       <Button
         title="Go to Login"
         onPress={() =>
-          navigation.navigate('Login', {user: 'pepe', password: 'lola'})
+          navigation.navigate('Login', {name: 'pepe', lastname: 'lola'})
         }
       />
     </View>
@@ -36,9 +36,12 @@ const BlogScreen = ({navigation}) => {
 };
 
 const LoginScreen = ({route, navigation}) => {
+  const {name, lastname} = route.params;
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Login Screen</Text>
+      <Text>Name: {name}</Text>
+      <Text>LastName: {lastname}</Text>
       <Button
         title="Go to About"
         onPress={() => navigation.navigate('About')}
@@ -56,7 +59,7 @@ const LoginScreen = ({route, navigation}) => {
   );
 };
 
-const AboutScreen = ({navigation}) => {
+const AboutScreen = ({route, navigation}) => {
   const [counter, setCounter] = useState(0);
 
   useLayoutEffect(() => {
