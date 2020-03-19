@@ -22,6 +22,7 @@ const HomeScreen = ({navigation}) => {
           navigation.navigate('Login', {name: 'pepe', lastname: 'lola'})
         }
       />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
     </View>
   );
 };
@@ -36,16 +37,17 @@ const BlogScreen = ({navigation}) => {
 };
 
 const LoginScreen = ({route, navigation}) => {
-  const {name, lastname} = route.params;
+  const {name = '', lastname = ''} = route.params ? route.params : {};
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Login Screen</Text>
-      <Text>Name: {name}</Text>
-      <Text>LastName: {lastname}</Text>
-      <Button
+      <Text>Name: {name || ''}</Text>
+      <Text>LastName: {lastname || ''}</Text>
+      {/* <Button
         title="Go to About"
         onPress={() => navigation.navigate('About')}
-      />
+      /> */}
+      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
       <Button
         title="Go to Login... again"
         onPress={() =>
@@ -77,7 +79,7 @@ const AboutScreen = ({route, navigation}) => {
   }, [navigation, setCounter]);
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>About Screen</Text>
       <Text>Count: {counter}</Text>
       <Button title="Go to Blog" onPress={() => navigation.navigate('Blog')} />
@@ -86,12 +88,48 @@ const AboutScreen = ({route, navigation}) => {
 };
 
 const Stack = createStackNavigator();
+const Main = createStackNavigator();
+
+const FeedScreen = ({navigation}) => {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Feed Screen</Text>
+      <Button
+        title="Go to Messages"
+        onPress={() => navigation.navigate('Messages')}
+      />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
+    </View>
+  );
+};
+
+const MessagesScreen = ({navigation}) => {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Messages Screen</Text>
+      <Button
+        title="Go to About"
+        onPress={() => navigation.navigate('About')}
+      />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
+    </View>
+  );
+};
+
+function MainNavigator() {
+  return (
+    <Main.Navigator mode="modal" headerMode="none">
+      <Main.Screen name="Feed" component={FeedScreen} />
+      <Main.Screen name="Messages" component={MessagesScreen} />
+    </Main.Navigator>
+  );
+}
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Login"
         headerMode="float"
         screenOptions={{
           headerStyle: {
@@ -108,9 +146,10 @@ const App: () => React$Node = () => {
           },
           cardOverlayEnabled: true,
         }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen
           name="Home"
-          component={HomeScreen}
+          component={MainNavigator}
           options={{
             title: 'My home jaja',
             headerRight: () => (
@@ -123,7 +162,6 @@ const App: () => React$Node = () => {
           }}
         />
         <Stack.Screen name="About" component={AboutScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen
           name="Blog"
           component={BlogScreen}
