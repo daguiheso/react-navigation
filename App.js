@@ -1,184 +1,86 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import 'react-native-gesture-handler';
-import React, {useState, useLayoutEffect} from 'react';
-import {View, Text, Button} from 'react-native';
+import React from 'react';
+import {Button} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import Login from './src/screens/StackParent/Login';
+import About from './src/screens/StackParent/About';
+import Feed from './src/screens/StackChildren/Feed';
+import Messages from './src/screens/StackChildren/Messages';
+import Blog from './src/screens/StackParent/Blog';
 
-const HomeScreen = ({navigation}) => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Login"
-        onPress={() =>
-          navigation.navigate('Login', {name: 'pepe', lastname: 'lola'})
-        }
-      />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
+const StackParent = createStackNavigator();
+const StackChildren = createStackNavigator();
+
+const stackParentOptions = {
+  headerStyle: {
+    backgroundColor: '#f4511e',
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  },
+  gestureEnabled: true,
+  cardStyle: {
+    borderWidth: 5,
+    backgroundColor: '#fafafa',
+  },
+  cardOverlayEnabled: true,
 };
 
-const BlogScreen = ({navigation}) => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Blog Screen</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-    </View>
-  );
+const homeOptions = {
+  title: 'My home jaja',
+  headerRight: () => (
+    <Button
+      onPress={() => alert('This is a button!')}
+      title="Info"
+      color="#fff"
+    />
+  ),
 };
 
-const LoginScreen = ({route, navigation}) => {
-  const {name = '', lastname = ''} = route.params ? route.params : {};
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Login Screen</Text>
-      <Text>Name: {name || ''}</Text>
-      <Text>LastName: {lastname || ''}</Text>
-      {/* <Button
-        title="Go to About"
-        onPress={() => navigation.navigate('About')}
-      /> */}
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-      <Button
-        title="Go to Login... again"
-        onPress={() =>
-          navigation.push('Login', {
-            itemId: Math.floor(Math.random() * 100),
-          })
-        }
-      />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
+const blogOptions = {
+  title: 'My home',
+  headerStyle: {
+    backgroundColor: '#baa31e',
+  },
+  headerTintColor: '#ababab',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  },
 };
-
-const AboutScreen = ({route, navigation}) => {
-  const [counter, setCounter] = useState(0);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        console.log('pepe');
-        return (
-          <Button
-            onPress={() => setCounter(c => c + 1)}
-            title="Update counter"
-          />
-        );
-      },
-    });
-  }, [navigation, setCounter]);
-
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>About Screen</Text>
-      <Text>Count: {counter}</Text>
-      <Button title="Go to Blog" onPress={() => navigation.navigate('Blog')} />
-    </View>
-  );
-};
-
-const Stack = createStackNavigator();
-const Main = createStackNavigator();
-
-const FeedScreen = ({navigation}) => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Feed Screen</Text>
-      <Button
-        title="Go to Messages"
-        onPress={() => navigation.navigate('Messages')}
-      />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-};
-
-const MessagesScreen = ({navigation}) => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Messages Screen</Text>
-      <Button
-        title="Go to About"
-        onPress={() => navigation.navigate('About')}
-      />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-};
-
-function MainNavigator() {
-  return (
-    <Main.Navigator mode="modal" headerMode="none">
-      <Main.Screen name="Feed" component={FeedScreen} />
-      <Main.Screen name="Messages" component={MessagesScreen} />
-    </Main.Navigator>
-  );
-}
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      <StackParent.Navigator
         initialRouteName="Login"
         headerMode="float"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          gestureEnabled: true,
-          cardStyle: {
-            borderWidth: 5,
-            backgroundColor: '#fafafa',
-          },
-          cardOverlayEnabled: true,
-        }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen
+        screenOptions={stackParentOptions}>
+        <StackParent.Screen name="Login" component={Login} />
+        <StackParent.Screen
           name="Home"
-          component={MainNavigator}
-          options={{
-            title: 'My home jaja',
-            headerRight: () => (
-              <Button
-                onPress={() => alert('This is a button!')}
-                title="Info"
-                color="#fff"
-              />
-            ),
-          }}
+          component={ChildrenNavigator}
+          options={homeOptions}
         />
-        <Stack.Screen name="About" component={AboutScreen} />
-        <Stack.Screen
+        <StackParent.Screen name="About" component={About} />
+        <StackParent.Screen
           name="Blog"
-          component={BlogScreen}
-          options={{
-            title: 'My home',
-            headerStyle: {
-              backgroundColor: '#baa31e',
-            },
-            headerTintColor: '#ababab',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
+          component={Blog}
+          options={blogOptions}
         />
-      </Stack.Navigator>
+      </StackParent.Navigator>
     </NavigationContainer>
   );
 };
+
+function ChildrenNavigator() {
+  return (
+    <StackChildren.Navigator mode="modal" headerMode="none">
+      <StackChildren.Screen name="Feed" component={Feed} />
+      <StackChildren.Screen name="Messages" component={Messages} />
+    </StackChildren.Navigator>
+  );
+}
 
 export default App;
