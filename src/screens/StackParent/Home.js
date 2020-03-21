@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Button, Text} from 'react-native';
+import {StackActions} from '@react-navigation/core';
 
 const Home = ({navigation}) => {
   return (
@@ -8,7 +9,13 @@ const Home = ({navigation}) => {
       <Button
         title="Go to Login"
         onPress={() =>
-          navigation.navigate('Login', {name: 'pepe', lastname: 'lola'})
+          // navigation.navigate('Login', {name: 'pepe', lastname: 'lola'})
+          navigation.dispatch(
+            StackActions.push('Login', {
+              name: 'pepe',
+              lastname: 'lola',
+            }),
+          )
         }
       />
       <Button title="Go back" onPress={() => navigation.goBack()} />
