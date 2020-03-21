@@ -8,10 +8,10 @@ const Login = ({route, navigation}) => {
       <Text>Login Screen</Text>
       <Text>Name: {name || ''}</Text>
       <Text>LastName: {lastname || ''}</Text>
-      {/* <Button
+      <Button
         title="Go to About"
         onPress={() => navigation.navigate('About')}
-      /> */}
+      />
       <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
       <Button
         title="Go to Login... again"
